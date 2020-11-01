@@ -1,0 +1,64 @@
+-------QUESTION 1--------
+
+Function findNumberPairs(list:List, target:int) : List
+    pairs : List[0]
+    for i:=0 to length(list) do
+        if (i>0 and i>target and target>0) then
+            break
+        endif
+        for j:=i to length(list) do
+            current = list[i]+list[j] : int 
+            if current>target then
+                continue
+            else if current==target then
+                pairs.add([list[i], list[j]])
+            endif
+        endfor
+    endfor
+    return pairs
+endfunction
+
+-------QUESTION 2-------
+
+Function mergeLists(list1:List, list2:List):List
+    output = [] : List
+    for i:=0 to (length(list1) + length(list2)) do
+        if length(list1)>0 and length(list2)>0 then
+            if(list1[0] < list2[0]) then
+                output.append(list1[0])
+                list1.pop(0)
+            else then
+                output.append(list2[0])
+                list2.pop(0)
+            endif
+        else if length(list1)==0 then
+            for j:=0 to length(list2) do
+                output.append(list2[i])
+            endfor
+            break
+        else if length(list2)==0 then
+            for j:=0 to length(list1) do
+                output.append(list1[i])
+            endfor
+            break
+        endif
+    endfor
+    return output
+endfunction
+
+
+--------QUESTION 3--------
+
+Function splitString(text:string, delimiters:string) : List
+    output = [] : List
+    prevDelim = -1 : int
+    for i:=0 to length(text) do
+        if text[i] in delimiters then
+            if prevDelim != i-1 then
+                output.append(text[prevDelim+1:i]
+            endif
+            prevDelim = i
+        endif
+    endfor
+    return output
+endfunction

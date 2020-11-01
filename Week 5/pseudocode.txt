@@ -1,0 +1,51 @@
+function largestSubList(inputList:List) : int
+    highestSum = 0 : int
+    for i:=0 to length(inputList) do
+        for j:=0 to (length(inputList) - 1 - i) do
+            currentTotal = 0 : int
+            for k:=i to (i+j) do
+                currentTotal = currentTotal + userList[k]
+            endfor
+            if currentTotal > highestSum then
+                highestSum = currentTotal
+            endif
+        endfor
+    endfor
+    return highestSum
+endfunction
+
+
+function largestSubRectangle(userList:List) : int
+    largestSum = 0
+    listWidth = length(userList)
+    listHeight = length(userList[0])
+    for i:=0 to listWidth do
+        for j:=0 to listHeight do
+            for xLen:=0 to listWidth - i do
+                for yLen:=0 to listHeight - j do
+                    currentTotal = 0 : int
+                    if xLen==0 AND yLen!=0 then
+                        for y:=0 to yLen do
+                            currentTotal = currentTotal + userList[i][j+y]
+                        endfor
+                    else if xLen!=0 AND yLen==0 then
+                        for x:=0 to xLen do
+                            currentTotal = currentTotal + userList[i+x][j]
+                        endfor
+                    else if xLen==0 AND yLen==0 then
+                        currentTotal = userList[i][j]
+                    else then
+                        for x:=0 to xLen+1 do
+                            for y:=0 to yLen+1 do
+                                currentTotal = currentTotal + userList[i+x][j+y]
+                            endfor
+                        endfor
+                    endif
+                    if currentTotal > largestSum then
+                        largestSum = currentTotal
+                    endif
+                endfor
+            endfor
+        endfor
+    endfor
+    return largestSum
