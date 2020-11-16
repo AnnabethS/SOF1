@@ -1,0 +1,60 @@
+# def flatten(user_list):
+#     output_list = []
+#     for i in user_list:
+#         if type(i)==list:
+#             flat_list = flatten(i)
+#             for j in flat_list:
+#                 output_list.append(j)
+#         else:
+#             output_list.append(i)
+#     return output_list
+
+############## Q1 ###############
+
+function sum_all(user_list) : int
+    if user_list == [] then
+        return 0
+    endif
+    total = 0
+    for i=0 to len(user_list) do
+        if type(i)==list then
+            total = total + sum_all(user_list[i])
+        else then
+            total = total + user_list[i]
+        endif
+    endfor
+    return total
+endfunction
+
+
+############## Q2 ###############
+
+function wildcard_pattern(pattern:string) : list
+    local function finder(pattern:string, currList:list):
+        newList = [] : List
+        if pattern[0]=="?" then
+            for i=0 to len(currList) do
+                newList.append(currList[i] + "0")
+                newList.append(currList[i] + "1")
+            endfor
+        else
+            newList = currList.copy()
+            for i=0 to len(new) do
+                newList[i].append(pattern[0])
+            endfor
+        endif
+        if len(pattern)==1:
+            return newList
+        else
+            newList = newList.append(pattern[1:])
+            return newList
+        endif
+    endfunction
+
+    return finder(pattern, "")
+
+endfunction
+    
+
+################# Q3 #####################
+
