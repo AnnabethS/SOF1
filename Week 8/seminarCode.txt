@@ -58,3 +58,21 @@ endfunction
 
 ################# Q3 #####################
 
+function rod_cutting(length, prices) : int
+    if length==1:
+        return prices[0]
+    else:
+        best = 0
+        for i=0 to length:
+            if i==0:
+                best = prices[length-1]
+            else:
+                bestSubSection = rod_cutting(length - i, prices)
+                if bestSubSection + prices[i - 1] > best:
+                    best = bestSubSection + prices[i - 1]
+                endif
+            endif
+        endfor
+        return best
+    endif
+endfunction

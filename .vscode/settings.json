@@ -4,7 +4,7 @@
         "-s",
         "./Week 8",
         "-p",
-        "test_*.py"
+        "*_test.py"
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.nosetestsEnabled": false,
