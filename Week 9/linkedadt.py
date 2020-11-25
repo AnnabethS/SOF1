@@ -126,9 +126,9 @@ class LinkedList:
         prevNode.tail = obj
         obj.tail = nextNode
 
-    def remove(self, value):
-        item_index = self.index(value)
-        pass
+    # def remove(self, value):
+    #     item_index = self.index(value)
+        
 
     def __getitem__(self, index):
         currentNode = self._front
