@@ -1,6 +1,5 @@
 import math
 import random
-from PIL import Image
 
 def voronoiDiagram_iter(matrix, seeds):
     matrixSize = len(matrix)
@@ -57,24 +56,20 @@ def voronoiDiagram_rec(matrix, seeds, diagonalNeighbours):
                 x = seeds[0][0][0]
                 y = seeds[0][0][1]
                 seedID = seeds[0][1]
-                if isInRangeOfMatrix(matrixSize, x+1, y):
-                    if matrix[y][x+1]==-1:
-                        seeds.append([(x+1, y), seedID])
-                        matrix[y][x+1] = seedID
-                if isInRangeOfMatrix(matrixSize, x-1, y):
-                    if matrix[y][x-1]==-1:
-                        seeds.append([(x-1, y), seedID])
-                        matrix[y][x-1] = seedID
-                if isInRangeOfMatrix(matrixSize, x, y+1):
-                    if matrix[y+1][x]==-1:
-                        seeds.append([(x, y+1), seedID])
-                        matrix[y+1][x] = seedID
-                if isInRangeOfMatrix(matrixSize, x, y-1):
-                    if matrix[y-1][x]==-1:
-                        seeds.append([(x, y-1), seedID])
-                        matrix[y-1][x] = seedID
+                modifiers = [[0,1], [0,-1], [1,0], [-1,0]]
+                for i in modifiers:
+                    if isInRangeOfMatrix(matrixSize, x+i[0], y+i[1]):
+                        if matrix[y+i[1]][x+i[0]]==-1:
+                            seeds.append([(x+i[0], y+i[1]), seedID])
+                            matrix[y+i[1]][x+i[0]] = seedID
+
                 if diagonalNeighbours:
-                    pass #add the diagonal neighbours too
+                    diagModifiers = [[1,1], [1,-1], [-1,1], [-1,-1]]
+                    for i in diagModifiers:
+                        if isInRangeOfMatrix(matrixSize, x+i[0], y+i[1]):
+                            if matrix[y+i[1]][x+i[0]]==-1:
+                                seeds.append([(x+i[0], y+i[1]), seedID])
+                                matrix[y+i[1]][x+i[0]] = seedID
                 seeds.pop(0)
             return finder(matrix, seeds, diagonalNeighbours)
     formattedSeeds = []
@@ -96,4 +91,4 @@ def matrixIsDone(matrix, emptyChar):
             return False
     return True
 
-matrixOutput(voronoiDiagram_rec(blankMatrix(10),  randomSeeds(10, 3), False))
+matrixOutput(voronoiDiagram_rec(blankMatrix(10),  randomSeeds(10, 3), True)) 
