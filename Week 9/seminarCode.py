@@ -43,7 +43,8 @@ def randomSeeds(size, amount):
         seeds.append((random.randint(0,size-1), random.randint(0,size-1)))
     return seeds
 
-# matrixOutput(voronoiDiagram_iter(blankMatrix(100),  randomSeeds(100, 6)))
+matrixOutput(voronoiDiagram_iter(blankMatrix(50),  randomSeeds(50, 8)))
+input()
 
 def voronoiDiagram_rec(matrix, seeds, diagonalNeighbours):
     def finder(matrix, seeds, diagonalNeighbours): #diagonalNeighbours = false; its a 4-neighbourhood, otherwise its an 8 neighbourhood
@@ -91,4 +92,49 @@ def matrixIsDone(matrix, emptyChar):
             return False
     return True
 
-matrixOutput(voronoiDiagram_rec(blankMatrix(10),  randomSeeds(10, 3), True)) 
+# matrixOutput(voronoiDiagram_rec(blankMatrix(10),  randomSeeds(10, 3), True)) 
+
+def imageNeighbourhoods(matrix, diagonalNeighbours):
+    currentNeighbourhood = 2
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            if matrix[i][j]==1:
+                matrix = floodFill(matrix, currentNeighbourhood, (i,j), diagonalNeighbours)
+                currentNeighbourhood += 1
+    return matrix
+
+
+def floodFill(matrix, replacement, start, diagonalNeighbours):
+    possibleNodes = [start]
+    modifiers = []
+    if diagonalNeighbours:
+        modifiers = [
+            [0,1], [0,-1], 
+            [1,0], [1,1], [1,-1], 
+            [-1,1], [-1,0], [-1,-1]]
+    else:
+        modifiers = [
+            [0,1],[0,-1],
+            [1,0],[-1,0]
+        ]
+    while len(possibleNodes) > 0:
+        print(len(possibleNodes))
+        for i in modifiers:
+            if isInRangeOfMatrix(len(matrix), possibleNodes[0][0]+i[0], possibleNodes[0][1]+i[1]):
+                if matrix[possibleNodes[0][0]+i[0]][possibleNodes[0][1]+i[1]]==1:
+                    matrix[possibleNodes[0][0]+i[0]][possibleNodes[0][1]+i[1]] = replacement
+                    possibleNodes.append((possibleNodes[0][0]+i[0], possibleNodes[0][1]+i[1]))
+        possibleNodes.pop(0)
+    return matrix
+        
+
+# matrixOutput(imageNeighbourhoods([
+#     [0, 0, 0, 0, 0, 0, 0, 0],
+#     [1, 0, 0, 0, 0, 1, 0, 0],
+#     [1, 1, 1, 0, 1, 1, 1, 0],
+#     [1, 0, 1, 0, 0, 1, 1, 0],
+#     [1, 1, 1, 0, 0, 0, 0, 0],
+#     [1, 1, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 1, 1],
+#     [0, 0, 0, 0, 0, 0, 1, 1],
+# ], False))
