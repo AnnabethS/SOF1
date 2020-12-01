@@ -1,5 +1,25 @@
 import math
 import random
+from PIL import Image
+
+
+def imageOutput(matrix, seeds):
+    colours = []
+    for i in range(len(seeds)):
+        colours.append((
+            random.randint(0,255),
+            random.randint(0,255),
+            random.randint(0,255)
+        ))
+    size = len(matrix)
+    outputImage = Image.new("RGB", (size, size), "black")
+    pixels = outputImage.load()
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            pixels[j, i] = colours[matrix[j][i]]
+    for i in seeds:
+        pixels[i[1], i[0]] = (0,0,0)
+    outputImage.save("test.png")
 
 def voronoiDiagram_iter(matrix, seeds):
     matrixSize = len(matrix)
@@ -43,8 +63,13 @@ def randomSeeds(size, amount):
         seeds.append((random.randint(0,size-1), random.randint(0,size-1)))
     return seeds
 
-matrixOutput(voronoiDiagram_iter(blankMatrix(50),  randomSeeds(50, 8)))
-input()
+MATRIX_SIZE = 1024
+SEEDS_AMOUNT = 15
+seeds = randomSeeds(MATRIX_SIZE, SEEDS_AMOUNT)
+complete_matrix = voronoiDiagram_iter(blankMatrix(MATRIX_SIZE), seeds)
+print("matrix processed")
+imageOutput(complete_matrix, seeds)
+print("image processed + output")
 
 def voronoiDiagram_rec(matrix, seeds, diagonalNeighbours):
     def finder(matrix, seeds, diagonalNeighbours): #diagonalNeighbours = false; its a 4-neighbourhood, otherwise its an 8 neighbourhood
