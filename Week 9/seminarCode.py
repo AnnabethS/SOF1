@@ -63,14 +63,6 @@ def randomSeeds(size, amount):
         seeds.append((random.randint(0,size-1), random.randint(0,size-1)))
     return seeds
 
-MATRIX_SIZE = 1024
-SEEDS_AMOUNT = 15
-seeds = randomSeeds(MATRIX_SIZE, SEEDS_AMOUNT)
-complete_matrix = voronoiDiagram_iter(blankMatrix(MATRIX_SIZE), seeds)
-print("matrix processed")
-imageOutput(complete_matrix, seeds)
-print("image processed + output")
-
 def voronoiDiagram_rec(matrix, seeds, diagonalNeighbours):
     def finder(matrix, seeds, diagonalNeighbours): #diagonalNeighbours = false; its a 4-neighbourhood, otherwise its an 8 neighbourhood
         matrixSize = len(matrix)
@@ -117,8 +109,6 @@ def matrixIsDone(matrix, emptyChar):
             return False
     return True
 
-# matrixOutput(voronoiDiagram_rec(blankMatrix(10),  randomSeeds(10, 3), True)) 
-
 def imageNeighbourhoods(matrix, diagonalNeighbours):
     currentNeighbourhood = 2
     for i in range(len(matrix)):
@@ -143,7 +133,6 @@ def floodFill(matrix, replacement, start, diagonalNeighbours):
             [1,0],[-1,0]
         ]
     while len(possibleNodes) > 0:
-        print(len(possibleNodes))
         for i in modifiers:
             if isInRangeOfMatrix(len(matrix), possibleNodes[0][0]+i[0], possibleNodes[0][1]+i[1]):
                 if matrix[possibleNodes[0][0]+i[0]][possibleNodes[0][1]+i[1]]==1:
@@ -163,3 +152,11 @@ def floodFill(matrix, replacement, start, diagonalNeighbours):
 #     [0, 0, 0, 0, 0, 0, 1, 1],
 #     [0, 0, 0, 0, 0, 0, 1, 1],
 # ], False))
+
+MATRIX_SIZE = 50   
+SEEDS_AMOUNT = 3
+seeds = randomSeeds(MATRIX_SIZE, SEEDS_AMOUNT)
+complete_matrix = voronoiDiagram_rec(blankMatrix(MATRIX_SIZE), seeds, True)
+print("matrix processed")
+matrixOutput(complete_matrix, seeds)
+print("image processed + output")
